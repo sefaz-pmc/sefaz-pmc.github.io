@@ -1,0 +1,38 @@
+---
+title: "res sólidos"
+---
+
+```{r,echo=F}
+library(readxl)
+library(ggplot2)
+
+a = read_excel("C:/Users/ewert/OneDrive/Documentos/Obras/Obras/Res. Sólidos.xlsx", range = "A5:J6", col_names = FALSE)
+a2 = t(a[-1])
+colnames(a2) = a$...1
+
+
+c = read_excel("C:/Users/ewert/OneDrive/Documentos/Obras/Obras/Res. Sólidos.xlsx", range = "A15:A60", col_names = FALSE)
+c = as.data.frame(c)
+c = c[!is.na(c)]
+c2 = matrix(c,ncol=2, byrow = F)
+c2 = as.data.frame(c2)
+
+y = as.data.frame(a2)
+y[,"Acumulado"] = cumsum(y$`REAL REALIZADO MÊS`)
+
+p = ggplot()+
+  geom_line(y, mapping= aes(x=c(1:9), y=y$`CRON LICITAÇÃO ACUMULADO`, color = "blue")) +
+  geom_line(y, mapping= aes(x=c(1:9), y=y$Acumulado, color = "red")) +
+  scale_x_continuous(name = NULL,
+                     breaks = c(1,2,3,4,5,6,7,8,9), 
+                     labels = c('Jan/19', 'Fev/19', 'Mar/19', 'Abr/19', 'Mai/19', 'Jun/19', 'Jul/19', 'Ago/19', 'Set/19')) +
+  scale_y_continuous(name = 'Valor (R$)',
+                     breaks = c(0,100000,200000,300000,400000,500000,600000), 
+                     labels = c('0','100.000','200.000','300.000','400.000','500.000','600.000')) +
+    scale_color_discrete(name = "Legenda", labels = c("Meta de Gasto", "Valor gasto"))
+print(p)
+```
+
+```{r, echo=F}
+print(c)
+```

@@ -1,0 +1,41 @@
+---
+title: "segunda etapa via park"
+---
+
+```{r,echo=F}
+library(readxl)
+library(ggplot2)
+
+a = read_excel("C:/Users/ewert/OneDrive/Documentos/Obras/Obras/2_etapa_viaparque.xlsx", range = "A5:I6", col_names = FALSE)
+a2 = t(a[-1])
+colnames(a2) = a$...1
+
+
+c = read_excel("C:/Users/ewert/OneDrive/Documentos/Obras/Obras/2_etapa_viaparque.xlsx", range = "A15:A60", col_names = FALSE)
+c = as.data.frame(c)
+c = c[!is.na(c)]
+c2 = matrix(c,ncol=2, byrow = F)
+c2 = as.data.frame(c2)
+
+y = as.data.frame(a2)
+y[,"Acumulado"] = cumsum(y$`REAL REALIZADO MÊS`)
+
+p = ggplot()+
+  geom_line(y, mapping= aes(x=c(1:8), y=y$`CRON LICITAÇÃO ACUMULADO`, color = "blue")) +
+  geom_line(y, mapping= aes(x=c(1:8), y=y$Acumulado, color = "red")) +
+  scale_x_continuous(name = NULL,
+                     breaks = c(1,2,3,4,5,6,7,8), 
+                     labels = c('Jul/19', 'Ago/19', 'Set/19', 'Out/19', 'Nov/19', 'Dez/19', 'Jan/19', 'Fev/19')) +
+  scale_y_continuous(name = 'Valor (R$)',
+                     breaks = c(0,1000000,2000000,3000000,4000000), 
+                     labels = c('0','1.000.000','2.000.000','3.000.000','4.000.000')) +
+    scale_color_discrete(name = "Legenda", labels = c("Meta de Gasto", "Valor gasto"))
+print(p)
+
+
+```
+
+
+```{r, echo=F}
+print(c)
+```

@@ -4,10 +4,7 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "About"
-      href: about.html
-      
-output:
-  html_document:
-    theme: cosmo
-   
+    - text: "2ª etapa Via Park"
+      href: segviapark.html
+    - text: "Res. Sólidos"
+      href: ressolidos.html  
